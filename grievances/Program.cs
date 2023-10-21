@@ -1,28 +1,33 @@
-﻿var builder = WebApplication.CreateBuilder(args);
+﻿using grievances.Models;
 
-// Add services to the container.
+using GrievancesContext context = new GrievancesContext();
 
-builder.Services.AddControllersWithViews();
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+Complaint veggieSpecial = new Complaint()
 {
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+    Complaint1 = "This is a test",
+    Id = 5,
+    Resolved = false
+};
+
+//context.Complaints.Add(veggieSpecial);
+
+Complaint deluxSpecial = new Complaint()
+{
+    Complaint1 = "This is another test",
+    Id = 8,
+    Resolved = true
+};
+
+//context.Complaints.Add(deluxSpecial);
+
+var complaints = from complaint in context.Complaints
+                 select complaint;
+
+foreach (Complaint c in complaints)
+{
+    Console.WriteLine($"Id: {c.Id}");
+    Console.WriteLine($"Title: {c.Complaint1}");
+    Console.WriteLine($"Id: {c.Resolved}");
 }
 
-app.UseHttpsRedirection();
-app.UseStaticFiles();
-app.UseRouting();
-
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller}/{action=Index}/{id?}");
-
-app.MapFallbackToFile("index.html");
-
-app.Run();
-
+context.SaveChanges();
