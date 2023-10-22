@@ -7,9 +7,9 @@ const Home = () => {
     return (
         <>
             <Navbar />
-            <section className='flex items-center max-w-4xl mx-auto gap-32'>
+            <section className='flex items-center justify-center max-w-3xl mx-6 md:mx-auto md:gap-8 lg:gap-20'>
                 <IssueForm />
-                <img src={home} alt="form" className='w-80' />
+                <img src={home} alt="form" className='w-80 hidden md:block' />
             </section>
         </>
     )
