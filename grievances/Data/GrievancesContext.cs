@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using grievances.Models;
 
-namespace grievances.Models;
+namespace grievances.Data;
 
 public partial class GrievancesContext : DbContext
 {
@@ -29,11 +30,25 @@ public partial class GrievancesContext : DbContext
 
             entity.ToTable("complaints");
 
-            entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.Complaint1)
+            entity.Property(e => e.Id)
+                .HasMaxLength(50)
+                .HasColumnName("id");
+            entity.Property(e => e.Complainant)
                 .HasMaxLength(255)
-                .HasColumnName("complaint");
+                .HasColumnName("complainant");
+            entity.Property(e => e.Description)
+                .HasMaxLength(1500)
+                .HasColumnName("description");
+            entity.Property(e => e.Resolution)
+                .HasMaxLength(1000)
+                .HasColumnName("resolution");
             entity.Property(e => e.Resolved).HasColumnName("resolved");
+            entity.Property(e => e.Stamp)
+                .HasColumnType("datetime")
+                .HasColumnName("stamp");
+            entity.Property(e => e.Title)
+                .HasMaxLength(255)
+                .HasColumnName("title");
         });
 
         OnModelCreatingPartial(modelBuilder);
