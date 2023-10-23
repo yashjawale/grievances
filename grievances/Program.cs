@@ -1,33 +1,31 @@
-﻿using grievances.Models;
+﻿using grievances.Data;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
-using GrievancesContext context = new GrievancesContext();
+var builder = WebApplication.CreateBuilder(args);
 
-Complaint veggieSpecial = new Complaint()
+// Add services to the container.
+
+builder.Services.AddControllers();
+builder.Services.AddDbContext<GrievancesContext>().AddScoped<GrievancesContext>();
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
 {
-    Complaint1 = "This is a test",
-    Id = 5,
-    Resolved = false
-};
-
-//context.Complaints.Add(veggieSpecial);
-
-Complaint deluxSpecial = new Complaint()
-{
-    Complaint1 = "This is another test",
-    Id = 8,
-    Resolved = true
-};
-
-//context.Complaints.Add(deluxSpecial);
-
-var complaints = from complaint in context.Complaints
-                 select complaint;
-
-foreach (Complaint c in complaints)
-{
-    Console.WriteLine($"Id: {c.Id}");
-    Console.WriteLine($"Title: {c.Complaint1}");
-    Console.WriteLine($"Id: {c.Resolved}");
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
-context.SaveChanges();
+app.UseHttpsRedirection();
+
+app.UseAuthorization();
+
+app.MapControllers();
+
+app.Run();
+

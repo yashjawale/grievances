@@ -5,9 +5,17 @@ namespace grievances.Models;
 
 public partial class Complaint
 {
-    public int Id { get; set; }
+    public string Id { get; set; } = null!;
 
-    public string? Complaint1 { get; set; }
+    public string Title { get; set; } = null!;
 
-    public bool? Resolved { get; set; }
+    public string Complainant { get; set; } = null!;
+
+    public string Description { get; set; } = null!;
+
+    public bool Resolved { get; set; }
+
+    public string? Resolution { get; set; }
+
+    public DateTime Stamp { get; set; }
 }
