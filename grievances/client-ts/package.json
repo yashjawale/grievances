@@ -10,6 +10,7 @@
     "@types/node": "^16.18.59",
     "@types/react": "^18.2.31",
     "@types/react-dom": "^18.2.14",
+    "primeicons": "^6.0.1",
     "primereact": "^10.0.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -43,7 +44,7 @@
     ]
   },
   "devDependencies": {
-    "tailwindcss": "^3.3.3",
-    "@babel/plugin-proposal-private-property-in-object":""
+    "@babel/plugin-proposal-private-property-in-object": "",
+    "tailwindcss": "^3.3.3"
   }
 }
