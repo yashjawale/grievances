@@ -28,8 +28,8 @@ const AccordionBody = ({ id, title, complainant, description, resolved, resoluti
             </div>
 
             <div className='flex gap-2'>
-                <Button size='small' label={"More Info"} outlined onClick={handleMoreInfo} />
-                <Button size='small' label={"Mark Resolved"} onClick={handleResolve}/>
+                <Button size='small' label={"More Info"} onClick={handleMoreInfo} />
+                {/* <Button size='small' label={"Mark Resolved"} onClick={handleResolve}/> */}
             </div>
         </section>
     )

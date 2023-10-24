@@ -1,9 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import back from '../assets/back.svg'
 import { Button } from 'primereact/button';
 import { AppContext } from '../context/AppContext';
 import { InputTextarea } from 'primereact/inputtextarea';
+import { OverlayPanel } from 'primereact/overlaypanel';
 import axios from 'axios';
 
 const initialIssueDetail = {
@@ -13,32 +14,34 @@ const initialIssueDetail = {
   description: "",
   resolved: false,
   resolution: "",
-  stamp:""
+  stamp: ""
 };
 
 const Issue = () => {
+  const op = useRef(null);
   const router = useNavigate()
   const params = useParams();
   const { id } = params;
-  const { showToast,toastTopRight } = useContext(AppContext)
+  const { showToast, toastTopRight } = useContext(AppContext)
   const [resolutionText, setResolutionText] = useState("")
   const [showResolution, setShowResolution] = useState(false)
   const [issueDetail, setIssueDetail] = useState(initialIssueDetail);
 
-  const fetchData = async()=>{
-    let {data} = await axios.get(`${process.env.REACT_APP_API_URL}/api/Grievances/${id}`)
+  const fetchData = async () => {
+    let { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/Grievances/${id}`)
     setIssueDetail(data)
   }
 
   const handleResolve = async (e) => {
+    e.preventDefault()
     try {
-      let { data } = await axios.post(`${process.env.REACT_APP_API_URL}/api/Grievances/resolve`,{
+      let { data } = await axios.post(`${process.env.REACT_APP_API_URL}/api/Grievances/resolve`, {
         id,
-        resolution:resolutionText
+        resolution: resolutionText
       })
-      showToast(e,toastTopRight,"success","Success","Issue resolved !")
-      console.log(data)
       router(`/admin/issues/`);
+      showToast(e, toastTopRight, "success", "Success", "Issue resolved !")
+      console.log(data)
     } catch (err) {
       console.log(err)
     }
@@ -62,13 +65,23 @@ const Issue = () => {
       <h1 className='text-4xl font-light mt-10 text-slate-700'>{title}</h1>
       <p className='text-primary'>{complainant} | {stamp}</p>
       <p className='font-light text-lg'>{description}</p>
-      {showResolution &&
-        <InputTextarea className='self-start' value={resolutionText} onChange={(e) => setResolutionText(e.target.value)} />
-      }
+
       <div className="self-start flex gap-3">
-        <Button label='Add resolution' outlined onClick={() => setShowResolution(!showResolution)} />
-        <Button label='Mark Resolved' onClick={handleResolve} />
+        {/* <Button label='Add resolution' outlined onClick={() => setShowResolution(!showResolution)} /> */}
+        {
+          resolved ? <h2 className='text-lg italic text-primary font-semibold'>Resolved</h2> :
+            <Button label='Mark Resolved' onClick={(e) => { setShowResolution(!showResolution); op.current.toggle(e) }} />
+        }
       </div>
+      <OverlayPanel ref={op}>
+        <form className='flex flex-col gap-2' onSubmit={handleResolve}>
+          <InputTextarea required value={resolutionText} onChange={e => setResolutionText(e.target.value)} />
+          <div className='flex gap-2 w-full'>
+            <Button label="Close" className='text-sm' type='button' outlined onClick={(e) => op.current.toggle(e)} />
+            <Button label="Submit" type='submit' icon="pi pi-check" className='text-sm' />
+          </div>
+        </form>
+      </OverlayPanel>
     </section>
   );
 };

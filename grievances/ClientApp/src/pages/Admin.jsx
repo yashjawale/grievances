@@ -35,7 +35,7 @@ const Admin = () => {
                             {
                                 issues.filter(i => i.resolved === false).map((issue) => {
                                     return <AccordionBody id={issue.id}
-                                    key={issue.id}
+                                        key={issue.id}
                                         title={issue.title}
                                         description={issue.description}
                                         complainant={issue.complainant}
@@ -44,6 +44,15 @@ const Admin = () => {
                                         stamp={issue.stamp} />
                                 })
                             }
+
+                            {/* <AccordionBody id={"issue.id"}
+                                key={"issue.id"}
+                                title={"issue.title"}
+                                description={"issue.description"}
+                                complainant={"issue.complainant"}
+                                resolution={"issue.resolution"}
+                                resolved={"issue.resolved"}
+                                stamp={"issue.stamp"} /> */}
 
 
                         </AccordionTab>
@@ -62,7 +71,7 @@ const Admin = () => {
                             {
                                 issues.filter(i => i.resolved === true).map((issue) => {
                                     return <AccordionBody id={issue.id}
-                                    key={issue.id}
+                                        key={issue.id}
                                         title={issue.title}
                                         description={issue.description}
                                         complainant={issue.complainant}
@@ -71,6 +80,15 @@ const Admin = () => {
                                         stamp={issue.stamp} />
                                 })
                             }
+
+                            {/* <AccordionBody id={"issue.id"}
+                                key={"issue.id"}
+                                title={"issue.title"}
+                                description={"issue.description"}
+                                complainant={"issue.complainant"}
+                                resolution={"issue.resolution"}
+                                resolved={"issue.resolved"}
+                                stamp={"issue.stamp"} /> */}
 
 
                         </AccordionTab>
