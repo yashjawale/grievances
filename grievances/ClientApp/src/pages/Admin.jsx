@@ -35,6 +35,7 @@ const Admin = () => {
                             {
                                 issues.filter(i => i.resolved === false).map((issue) => {
                                     return <AccordionBody id={issue.id}
+                                    key={issue.id}
                                         title={issue.title}
                                         description={issue.description}
                                         complainant={issue.complainant}
@@ -61,6 +62,7 @@ const Admin = () => {
                             {
                                 issues.filter(i => i.resolved === true).map((issue) => {
                                     return <AccordionBody id={issue.id}
+                                    key={issue.id}
                                         title={issue.title}
                                         description={issue.description}
                                         complainant={issue.complainant}

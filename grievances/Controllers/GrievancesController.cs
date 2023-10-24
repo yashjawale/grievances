@@ -50,12 +50,12 @@ namespace Application
         // POST api/Grievances
         [HttpPost]
         //public async Task<ActionResult<Complaint>> Post([FromBody] Complaint complaint)
-        public async Task<ActionResult<Complaint>> Post(string title, string from, string description)
+        public async Task<ActionResult<Complaint>> Post([FromBody]AddComplaintRequest req)
         {
             Complaint complaint = new Complaint();
-            complaint.Title = title;
-            complaint.Complainant = from;
-            complaint.Description = description;
+            complaint.Title = req.title;
+            complaint.Complainant = req.from;
+            complaint.Description = req.description;
             complaint.Stamp = DateTime.Now;
             complaint.Resolved = false;
             complaint.Resolution = null;
@@ -67,13 +67,13 @@ namespace Application
 
         // POST api/Grievances/resolve
         [HttpPost("resolve")]
-        public async Task<ActionResult> Resolve(string id, string resolution)
+        public async Task<ActionResult> Resolve([FromBody]ResolveRequest res)
         {
-            Console.WriteLine($"Resolve for {id}, reso: {resolution}");
-            var complaint = _grievanceData.Complaints.FirstOrDefault(_ => _.Id == id);
+            Console.WriteLine($"Resolve for {res.id}, reso: {res.resolution}");
+            var complaint = _grievanceData.Complaints.FirstOrDefault(_ => _.Id == res.id);
             if (complaint != null)
             {
-                complaint.Resolution = resolution;
+                complaint.Resolution = res.resolution;
                 complaint.Resolved = true;
                 await _grievanceData.SaveChangesAsync();
                 return Ok("resolved");

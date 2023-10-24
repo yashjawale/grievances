@@ -49,7 +49,7 @@ const Issue = () => {
     console.log(id)
     fetchData()
     console.log("issueDetail", issueDetail)
-  }, [issueDetail])
+  }, [])
 
   const { title, complainant, description, resolved, resolution, stamp } = issueDetail
 
