@@ -58,15 +58,18 @@ const Admin = () => {
                                 </div>
                             }
                         >
-                            <AccordionBody
-                                id={2}
-                                title='My scooter lost!!'
-                                description='One frustrating afternoon in the crowded parking lot, I returned to my scooter only to discover a disheartening sight. Someone had carelessly scratched and dented my beloved scooter while it was parked. It was a dismaying reminder of the lack of consideration some individuals show in shared spaces. The incident left me feeling both annoyed and disheartened, as I knew that the road to repairs and restoration would be both time-consuming and costly.' dated='24 Oct 2023'
-                                complainant='Veer Yodhya'
-                                resolution=''
-                                resolved={false}
-                                stamp="2 Oct 2045"
-                            />
+                            {
+                                issues.filter(i => i.resolved === true).map((issue) => {
+                                    return <AccordionBody id={issue.id}
+                                        title={issue.title}
+                                        description={issue.description}
+                                        complainant={issue.complainant}
+                                        resolution={issue.resolution}
+                                        resolved={issue.resolved}
+                                        stamp={issue.stamp} />
+                                })
+                            }
+
 
                         </AccordionTab>
                     </Accordion>
