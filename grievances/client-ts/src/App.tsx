@@ -9,9 +9,7 @@ import { Toast } from 'primereact/toast';
 import { Button } from 'primereact/button';
 import './theme/theme.css'
 import 'primeicons/primeicons.css';
-import { Tooltip } from 'primereact/tooltip';
-import { Card } from 'primereact/card';
-
+import { AppProvider } from './context/AppContext';
 
 // import 'primereact/resources/themes/saga-blue/theme.css'; predefined theme
 
@@ -31,19 +29,22 @@ export default function App() {
   }, [location])
 
   return (
-    <PrimeReactProvider>
-      <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/admin/issues' element={<Admin />} />
-        <Route path='/admin/issues/:id' element={<Issue />} />
-      </Routes>
+    <AppProvider>
+      <PrimeReactProvider>
 
-      <Toast ref={toastTopRight} position='top-right' className='p-toast-item' />
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/admin/issues' element={<Admin />} />
+          <Route path='/admin/issues/:id' element={<Issue />} />
+        </Routes>
 
-      {/* <Button label='Success' onClick={e=>showMessage(e,toastTopRight,'success','Title','Description')}/> */}
-      <Link to={`${admin ? '/' : '/admin/issues'}`} className='bg-slate-300 rounded-full p-3 flex items-center justify-center fixed bottom-5 right-5 z-50'>
-        <i className={`pi ${admin ? 'pi-home' : 'pi-user'}`} style={{ fontSize: "1.25rem" }}></i>
-      </Link>
-    </PrimeReactProvider>
+        <Toast ref={toastTopRight} position='top-right' className='p-toast-item' />
+
+        {/* <Button label='Success' onClick={e=>showMessage(e,toastTopRight,'success','Title','Description')}/> */}
+        <Link to={`${admin ? '/' : '/admin/issues'}`} className='bg-slate-300 rounded-full p-3 flex items-center justify-center fixed bottom-5 right-5 z-50'>
+          <i className={`pi ${admin ? 'pi-home' : 'pi-user'}`} style={{ fontSize: "1.25rem" }}></i>
+        </Link>
+      </PrimeReactProvider>
+    </AppProvider>
   )
 }
