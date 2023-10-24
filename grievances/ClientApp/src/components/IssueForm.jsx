@@ -2,33 +2,61 @@ import { Button } from 'primereact/button'
 import { InputText } from 'primereact/inputtext'
 import { InputTextarea } from 'primereact/inputtextarea'
 import React, { useState } from 'react'
+import axios from 'axios'
+
 
 const IssueForm = () => {
+
+    /*
+
+    `id` varchar(50) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `complainant` varchar(255) NOT NULL,
+  `description` varchar(1500) NOT NULL,
+  `resolved` tinyint(1) NOT NULL,
+  `resolution` varchar(1000) DEFAULT NULL,
+  `stamp` datetime NOT NULL,
+    PRIMARY KEY (`id`)
+     
+     */
     const [issueDetails, setIssueDetails] = useState({
-        fname: "",
-        lname: "",
-        issueTitle: "",
-        issueDesc: "",
-        dated: new Date().toDateString()
+        id: 0,
+        title: "",
+        complainant: "",
+        description: "",
+        resolved: false,
+        resolution: ""
     })
     const handleChange = (e) => {
         const { name, value } = e.target;
         setIssueDetails({ ...issueDetails, [name]: value })
     }
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
-        console.log(issueDetails)
+        let issue = {
+            title: issueDetails.title,
+            from: issueDetails.complainant,
+            description: issueDetails.description
+        }
+        try {
+            let { data } = await axios.post(`${process.env.REACT_APP_API_URL}/api/Grievances`, issue)
+            console.log("submission response = ", data)
+        } catch (err) {
+            console.log(err.message)
+        }
+
     }
+
     return (
-        <form onSubmit={handleSubmit} className='w-full sm:w-auto'>
+        <form onSubmit={handleSubmit} className='w-full sm:w-96'>
             <h2 className='text-2xl font-light my-4'>Add new Grievance</h2>
             <div className='flex flex-col gap-3'>
-                <div className='grid grid-cols-2 gap-2'>
-                    <InputText placeholder='First name' name={"fname"} value={issueDetails.fname} onChange={handleChange} required autoComplete='off' />
-                    <InputText placeholder='Last name' name={"lname"} value={issueDetails.lname} onChange={handleChange} required autoComplete='off' />
-                </div>
-                <InputText placeholder='Title of the issue' name={"issueTitle"} value={issueDetails.issueTitle} onChange={handleChange} required autoComplete='off' />
-                <InputTextarea placeholder='Issue Description' name={"issueDesc"} value={issueDetails.issueDesc} onChange={handleChange} required autoComplete='off' />
+                {/* <div className='grid grid-cols-2 gap-2'> */}
+                <InputText placeholder='Full name' name={"complainant"} value={issueDetails.complainant} onChange={handleChange} required autoComplete='off' />
+                {/* <InputText placeholder='Last name' name={"lname"} value={issueDetails.lname} onChange={handleChange} required autoComplete='off' /> */}
+                {/* </div> */}
+                <InputText placeholder='Title of the issue' name={"title"} value={issueDetails.title} onChange={handleChange} required autoComplete='off' />
+                <InputTextarea placeholder='Issue Description' name={"description"} value={issueDetails.description} onChange={handleChange} required autoComplete='off' />
                 <Button type='submit' label='Submit' className='self-start' />
             </div>
         </form>

@@ -1,9 +1,20 @@
 import { Button } from 'primereact/button'
-import React from 'react'
+import React, { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { AppContext } from '../context/AppContext'
 
 
-const AccordionBody = ({ id, title, description, dated, sender }) => {
+const AccordionBody = ({ id, title, complainant, description, resolved, resolution, stamp }) => {
+    const { updateIssueDetail } = useContext(AppContext)
+    const handleMoreInfo = () => {
+        let issue = { id, title, complainant, description, resolved, resolution, stamp }
+        updateIssueDetail(issue)
+        router(`/admin/issues/${id}`)
+    }
+    const handleResolve = () => {
+        router(`/admin/issues/`);
+        console.log("resolved")
+    }
 
     const router = useNavigate()
     return (
@@ -11,14 +22,14 @@ const AccordionBody = ({ id, title, description, dated, sender }) => {
             <div>
                 <p className='text-lg '>{title}</p>
                 <p className='mt-1'>
-                    <span className='text-sm'>{sender}</span> |
-                    <span className='text-sm'> {dated}</span>
+                    <span className='text-sm'>{complainant}</span> |
+                    <span className='text-sm'> {stamp}</span>
                 </p>
             </div>
 
             <div className='flex gap-2'>
-                <Button size='small' label={"More Info"} outlined onClick={() => router(`/admin/issues/${id}`)} />
-                <Button size='small' label={"Mark Resolved"} />
+                <Button size='small' label={"More Info"} outlined onClick={handleMoreInfo} />
+                <Button size='small' label={"Mark Resolved"} onClick={handleResolve}/>
             </div>
         </section>
     )

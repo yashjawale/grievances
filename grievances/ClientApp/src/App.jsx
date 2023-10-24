@@ -31,7 +31,6 @@ export default function App() {
   return (
     <AppProvider>
       <PrimeReactProvider>
-
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/admin/issues' element={<Admin />} />
