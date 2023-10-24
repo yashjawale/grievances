@@ -6,20 +6,37 @@ import { AppContext } from '../context/AppContext';
 import { InputTextarea } from 'primereact/inputtextarea';
 import axios from 'axios';
 
+const initialIssueDetail = {
+  id: 0,
+  title: "",
+  complainant: "",
+  description: "",
+  resolved: false,
+  resolution: "",
+  stamp:""
+};
+
 const Issue = () => {
   const router = useNavigate()
   const params = useParams();
   const { id } = params;
-  const { issueDetail } = useContext(AppContext)
+  const { showToast,toastTopRight } = useContext(AppContext)
   const [resolutionText, setResolutionText] = useState("")
   const [showResolution, setShowResolution] = useState(false)
+  const [issueDetail, setIssueDetail] = useState(initialIssueDetail);
 
-  const handleResolve = async () => {
+  const fetchData = async()=>{
+    let {data} = await axios.get(`${process.env.REACT_APP_API_URL}/api/Grievances/${id}`)
+    setIssueDetail(data)
+  }
+
+  const handleResolve = async (e) => {
     try {
       let { data } = await axios.post(`${process.env.REACT_APP_API_URL}/api/Grievances/resolve`,{
         id,
         resolution:resolutionText
       })
+      showToast(e,toastTopRight,"success","Success","Issue resolved !")
       console.log(data)
       router(`/admin/issues/`);
     } catch (err) {
@@ -29,10 +46,13 @@ const Issue = () => {
   }
 
   useEffect(() => {
+    console.log(id)
+    fetchData()
     console.log("issueDetail", issueDetail)
   }, [issueDetail])
 
   const { title, complainant, description, resolved, resolution, stamp } = issueDetail
+
   return (
     <section className='flex flex-col max-w-3xl mx-6 md:mx-auto gap-8 my-12'>
       <Link to={'/admin/issues'} className='self-start'>

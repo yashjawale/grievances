@@ -1,8 +1,9 @@
 import { Button } from 'primereact/button'
 import { InputText } from 'primereact/inputtext'
 import { InputTextarea } from 'primereact/inputtextarea'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import axios from 'axios'
+import { AppContext } from '../context/AppContext'
 
 
 const IssueForm = () => {
@@ -27,6 +28,7 @@ const IssueForm = () => {
         resolved: false,
         resolution: ""
     })
+    const { showToast,toastTopRight } = useContext(AppContext)
     const handleChange = (e) => {
         const { name, value } = e.target;
         setIssueDetails({ ...issueDetails, [name]: value })
@@ -41,8 +43,10 @@ const IssueForm = () => {
         try {
             let { data } = await axios.post(`${process.env.REACT_APP_API_URL}/api/Grievances`, issue)
             console.log("submission response = ", data)
+            showToast(e,toastTopRight,"success","Success","Issue submitted !")
         } catch (err) {
             console.log(err.message)
+            showToast(e,toastTopRight,"error","Oops!","Something went wrong, please try again !")
         }
 
     }
