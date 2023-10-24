@@ -16,7 +16,10 @@ const Issue = () => {
 
   const handleResolve = async () => {
     try {
-      let { data } = await axios.post(`${process.env.REACT_APP_API_URL}/api/Grievances/resolve`)
+      let { data } = await axios.post(`${process.env.REACT_APP_API_URL}/api/Grievances/resolve`,{
+        id,
+        resolution:resolutionText
+      })
       console.log(data)
       router(`/admin/issues/`);
     } catch (err) {
