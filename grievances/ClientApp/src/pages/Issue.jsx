@@ -66,10 +66,14 @@ const Issue = () => {
       <p className='text-primary'>{complainant} | {stamp}</p>
       <p className='font-light text-lg'>{description}</p>
 
-      <div className="self-start flex gap-3">
+      <div>
         {/* <Button label='Add resolution' outlined onClick={() => setShowResolution(!showResolution)} /> */}
         {
-          resolved ? <h2 className='text-lg italic text-primary font-semibold'>Resolved</h2> :
+          resolved ?
+            <>
+              <p className='text-lg italic text-primary font-semibold'>Resolved</p>
+              <p className='mt-3'><span className='underline underline-offset-2'>Resolution</span> : <span>{resolution}</span></p>
+            </> :
             <Button label='Mark Resolved' onClick={(e) => { setShowResolution(!showResolution); op.current.toggle(e) }} />
         }
       </div>

@@ -28,7 +28,7 @@ const IssueForm = () => {
         resolved: false,
         resolution: ""
     })
-    const { showToast,toastTopRight } = useContext(AppContext)
+    const { showToast, toastTopRight } = useContext(AppContext)
     const handleChange = (e) => {
         const { name, value } = e.target;
         setIssueDetails({ ...issueDetails, [name]: value })
@@ -43,10 +43,18 @@ const IssueForm = () => {
         try {
             let { data } = await axios.post(`${process.env.REACT_APP_API_URL}/api/Grievances`, issue)
             console.log("submission response = ", data)
-            showToast(e,toastTopRight,"success","Success","Issue submitted !")
+            showToast(e, toastTopRight, "success", "Success", "Issue submitted !")
+            setIssueDetails({
+                id: 0,
+                title: "",
+                complainant: "",
+                description: "",
+                resolved: false,
+                resolution: ""
+            })
         } catch (err) {
             console.log(err.message)
-            showToast(e,toastTopRight,"error","Oops!","Something went wrong, please try again !")
+            showToast(e, toastTopRight, "error", "Oops!", "Something went wrong, please try again !")
         }
 
     }
