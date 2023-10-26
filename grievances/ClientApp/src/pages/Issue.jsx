@@ -4,7 +4,7 @@ import back from '../assets/back.svg'
 import { Button } from 'primereact/button';
 import { AppContext } from '../context/AppContext';
 import { InputTextarea } from 'primereact/inputtextarea';
-import { OverlayPanel } from 'primereact/overlaypanel';
+import { Dialog } from 'primereact/dialog';
 import axios from 'axios';
 
 const initialIssueDetail = {
@@ -90,18 +90,18 @@ const Issue = () => {
               <p className='text-lg italic text-primary font-semibold'>Resolved</p>
               <p className='mt-3'><span className='underline underline-offset-2'>Resolution</span> : <span>{resolution}</span></p>
             </> :
-            <Button label='Mark Resolved' onClick={(e) => { setShowResolution(!showResolution); op.current.toggle(e) }} />
+            <Button label='Mark Resolved' onClick={(e) => { setShowResolution(!showResolution);}} />
         }
       </div>
-      <OverlayPanel ref={op}>
+      <Dialog visible={showResolution} header="Mark as Resolved" className='w-10/12 sm:w-3/5 lg:w-2/5' onHide={() => setShowResolution(false)}>
         <form className='flex flex-col gap-2' onSubmit={handleResolve}>
-          <InputTextarea required value={resolutionText} onChange={e => setResolutionText(e.target.value)} />
+          <InputTextarea required value={resolutionText} className='w-9/12' placeholder='Add resolution' onChange={e => setResolutionText(e.target.value)} />
           <div className='flex gap-2 w-full'>
-            <Button label="Close" className='text-sm' type='button' outlined onClick={(e) => op.current.toggle(e)} />
-            <Button label="Submit" type='submit' icon="pi pi-check" className='text-sm' />
+            {/* <Button label="Close" className='text-sm' type='button' outlined onClick={(e) => setShowResolution(false)} /> */}
+            <Button label="Submit" type='submit' className='text-sm' />
           </div>
         </form>
-      </OverlayPanel>
+      </Dialog>
     </section>
   );
 };
