@@ -20,10 +20,10 @@ const AccordionBody = ({ id, title, complainant, description, resolved, resoluti
     return (
         <section className="p-6 font-light border flex flex-col gap-4 sm:gap-0 sm:flex-row justify-between sm:items-end rounded-md my-4 border-gray-600">
             <div>
-                <p className='text-lg '>{title}</p>
+                <p className='text-lg font-normal'>{title}</p>
                 <p className='mt-1'>
-                    <span className='text-sm'>{complainant}</span> |
-                    <span className='text-sm'> {stamp}</span>
+                    <span className='text-sm font-light'>{complainant}</span> |
+                    <span className='text-sm font-light'> {stamp}</span>
                 </p>
             </div>
 

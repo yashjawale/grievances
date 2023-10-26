@@ -47,6 +47,17 @@ const Issue = () => {
     }
     console.log("resolved")
   }
+  const handleDelete = async (e) => {
+    try {
+      let { data } = await axios.delete(`${process.env.REACT_APP_API_URL}/api/Grievances/${id}`)
+      router(`/admin/issues/`);
+      showToast(e, toastTopRight, "success", "Success", "Issue deleted !")
+      console.log(data)
+    } catch (err) {
+      console.log(err)
+    }
+    console.log("deleted")
+  }
 
   useEffect(() => {
     console.log(id)
@@ -62,7 +73,12 @@ const Issue = () => {
         <img src={back} alt="back" className='w-9' />
       </Link>
       {/* <p className='text-slate-600 mb-1 underline'>Issue id: {id}</p> */}
-      <h1 className='text-4xl font-light mt-10 text-slate-700'>{title}</h1>
+      <div className='flex items-center justify-between mt-10'>
+        <h1 className='text-4xl font-light text-slate-700'>{title}</h1>
+        <button onClick={handleDelete}>
+          <i className='pi pi-trash' style={{ fontSize: "22px",fontWeight:"bold", color: "#9a2827" }}></i>
+        </button>
+      </div>
       <p className='text-primary'>{complainant} | {stamp}</p>
       <p className='font-light text-lg'>{description}</p>
 
